@@ -13,6 +13,7 @@ interface TableData {
 const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     const [editedData, setEditedData] = useState<RowData[]>(data);
     const [filteredColumns, setFilteredColumns] = useState<string[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
     useEffect(() => {
         const storedData = localStorage.getItem('editedData');
@@ -44,6 +45,23 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
         } else {
             setFilteredColumns([...filteredColumns, columnId]);
         }
+    };
+
+    const handleSearchQueryChange = (value: string) => {
+        setSearchQuery(value);
+    };
+
+    const filterData = (data: RowData[], query: string) => {
+        if (query.trim() === '') {
+            return data;
+        }
+
+        const lowerCaseQuery = query.toLowerCase();
+        return data.filter((row) =>
+            Object.values(row).some((value) =>
+                String(value).toLowerCase().includes(lowerCaseQuery)
+            )
+        );
     };
 
     const renderCell = (column: Column, text: any, record: RowData) => {
@@ -94,6 +112,7 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     };
 
     const filteredColumnsData = columns.filter((column) => !filteredColumns.includes(column.id));
+    const filteredData = filterData(editedData, searchQuery);
 
     return (
         <div>
@@ -113,8 +132,16 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
                     </label>
                 ))}
             </div>
+            <div>
+                <h3>Search Data:</h3>
+                <Input.Search
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={(e) => handleSearchQueryChange(e.target.value)}
+                />
+            </div>
             <Table
-                dataSource={editedData}
+                dataSource={filteredData}
                 columns={filteredColumnsData.map((column) => ({
                     title: column.title,
                     dataIndex: column.id,
