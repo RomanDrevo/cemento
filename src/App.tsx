@@ -3,11 +3,12 @@ import './App.css';
 import DynamicTable from "./components/DynamicTable";
 
 export interface Column {
-  id: string;
-  ordinalNo: number;
-  title: string;
-  type: string;
-  width?: number;
+  id: string; // ID of the column. Should match the one on the data rows
+  ordinalNo: number; // Position of the column
+  title: string; // Name of the column
+  type: "string" | "number" | "boolean" | "selection"; // Type of the data in the column
+  width?: number; // Defines the width of the column
+  options?: string[]; // Options for selection type column
 }
 
 export interface RowData {
@@ -16,41 +17,54 @@ export interface RowData {
 }
 
 const columns: Column[] = [
-  { id: 'id', ordinalNo: 1, title: 'ID', type: 'string', width: 100 },
-  { id: 'name', ordinalNo: 2, title: 'Name', type: 'string', width: 200 },
-  { id: 'age', ordinalNo: 3, title: 'Age', type: 'number', width: 100 },
-  { id: 'active', ordinalNo: 4, title: 'Active', type: 'boolean', width: 100 },
-  { id: 'gender', ordinalNo: 5, title: 'Gender', type: 'string', width: 100 },
+  {
+    id: "name",
+    ordinalNo: 1,
+    title: "Name",
+    type: "string",
+  },
+  {
+    id: "age",
+    ordinalNo: 2,
+    title: "Age",
+    type: "number",
+  },
+  {
+    id: "active",
+    ordinalNo: 3,
+    title: "Active",
+    type: "boolean",
+  },
+  {
+    id: "gender",
+    ordinalNo: 4,
+    title: "Gender",
+    type: "selection",
+    options: ["Male", "Female", "Other"],
+  },
 ];
 
 const data: RowData[] = [
   {
-    id: '1',
-    name: 'John',
-    age: 25,
-    active: true,
-    gender: 'Male',
-  },
-  {
-    id: '2',
-    name: 'Jane',
+    id: "1",
+    name: "John Doe",
     age: 30,
-    active: false,
-    gender: 'Female',
-  },
-  {
-    id: '3',
-    name: 'Bob',
-    age: 40,
     active: true,
-    gender: 'Male',
+    gender: "Male",
   },
   {
-    id: '4',
-    name: 'Alice',
-    age: 35,
+    id: "2",
+    name: "Jane Smith",
+    age: 25,
     active: false,
-    gender: 'Female',
+    gender: "Female",
+  },
+  {
+    id: "3",
+    name: "Alex Johnson",
+    age: 35,
+    active: true,
+    gender: "Other",
   },
 ];
 
