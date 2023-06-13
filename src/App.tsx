@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import DynamicTable from "./components/DynamicTable";
 
-export interface ColumnDefinition {
+export interface Column {
   id: string;
   ordinalNo: number;
   title: string;
@@ -15,62 +15,49 @@ export interface RowData {
   [columnId: string]: any;
 }
 
-export interface TableData {
-  columns: ColumnDefinition[];
-  data: RowData[];
-}
+const columns: Column[] = [
+  { id: 'id', ordinalNo: 1, title: 'ID', type: 'string', width: 100 },
+  { id: 'name', ordinalNo: 2, title: 'Name', type: 'string', width: 200 },
+  { id: 'age', ordinalNo: 3, title: 'Age', type: 'number', width: 100 },
+  { id: 'active', ordinalNo: 4, title: 'Active', type: 'boolean', width: 100 },
+  { id: 'gender', ordinalNo: 5, title: 'Gender', type: 'string', width: 100 },
+];
 
-// Usage example
-const tableData: TableData = {
-  columns: [
-    {
-      id: 'column1',
-      ordinalNo: 1,
-      title: 'Column 1',
-      type: 'string',
-      width: 100
-    },
-    {
-      id: 'column2',
-      ordinalNo: 2,
-      title: 'Column 2',
-      type: 'number',
-      width: 150
-    },
-    {
-      id: 'column3',
-      ordinalNo: 3,
-      title: 'Column 3',
-      type: 'boolean',
-      width: 100
-    }
-  ],
-  data: [
-    {
-      id: 'row1',
-      column1: 'Value 1',
-      column2: 123,
-      column3: true
-    },
-    {
-      id: 'row2',
-      column1: 'Value 2',
-      column2: 456,
-      column3: false
-    },
-    {
-      id: 'row3',
-      column1: 'Value 3',
-      column2: 789,
-      column3: true
-    }
-  ]
-};
+const data: RowData[] = [
+  {
+    id: '1',
+    name: 'John',
+    age: 25,
+    active: true,
+    gender: 'Male',
+  },
+  {
+    id: '2',
+    name: 'Jane',
+    age: 30,
+    active: false,
+    gender: 'Female',
+  },
+  {
+    id: '3',
+    name: 'Bob',
+    age: 40,
+    active: true,
+    gender: 'Male',
+  },
+  {
+    id: '4',
+    name: 'Alice',
+    age: 35,
+    active: false,
+    gender: 'Female',
+  },
+];
 
 function App() {
   return (
     <div className="App">
-      <DynamicTable {...tableData} />
+      <DynamicTable columns={columns} data={data} />
     </div>
   );
 }
