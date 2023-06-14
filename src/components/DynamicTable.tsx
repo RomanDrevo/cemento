@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Input, Button, Select, Switch } from 'antd';
 import { Column, RowData, TableData } from "../types";
-import { useDispatch } from 'react-redux';
-import { saveData } from '../store/tableDataSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {saveData, selectSearchQuery, updateSearchQuery} from '../store/tableDataSlice';
 
 const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     const [editedData, setEditedData] = useState<RowData[]>(data);
     const [filteredColumns, setFilteredColumns] = useState<string[]>([]);
-    const [searchQuery, setSearchQuery] = useState<string>('');
+
+    const dispatch = useDispatch();
+
+    const searchQuery = useSelector(selectSearchQuery)
 
     useEffect(() => {
         const storedData = localStorage.getItem('editedData');
@@ -42,7 +45,8 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     };
 
     const handleSearchQueryChange = (value: string) => {
-        setSearchQuery(value);
+        dispatch(updateSearchQuery(value))
+        // setSearchQuery(value);
     };
 
     const filterData = (data: RowData[], query: string) => {
@@ -108,7 +112,7 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
                 return <div className="dynamic-table-cell">{text}</div>;
         }
     };
-    const dispatch = useDispatch();
+
     const handleSaveData = () => {
         // Handle saving the edited data here
         console.log(editedData);
