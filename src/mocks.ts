@@ -155,7 +155,7 @@ export const dataset4: TableData = {
         {
             id: "1",
             name: "John Doe",
-            age: 30,
+            age: 25,
             active: true,
             gender: "Male",
         },

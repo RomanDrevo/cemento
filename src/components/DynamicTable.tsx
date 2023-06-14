@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Input, Button, Select, Switch } from 'antd';
+import {Table, Input, Button, Select, Switch, Collapse} from 'antd';
 import { Column, RowData, TableData } from "../types";
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -11,9 +11,15 @@ import {
 } from '../store/tableDataSlice';
 import FilterColumns from "./FilterColumns";
 import SearchData from "./SearchData";
+import {ColumnType} from "antd/lib/table";
+
+const { Panel } = Collapse;
+
 
 const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     const [editedData, setEditedData] = useState<RowData[]>(data);
+    const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
+
 
     const dispatch = useDispatch();
 
@@ -135,6 +141,67 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
 
     const filteredColumnsData = columns.filter((column) => !filteredColumns.includes(column.id));
     const filteredData = filterData(editedData, searchQuery);
+    const dataSource = filteredData.map((row) => ({ key: row.id, ...row }));
+
+    const groupRows = (rows: any[], columnId: string) => {
+        const groups: any[] = [];
+        let currentGroup: any[] = [];
+        let prevValue: any = null;
+
+        rows.forEach((row) => {
+            const value = row[columnId];
+
+            if (value !== prevValue) {
+                if (currentGroup.length > 0) {
+                    groups.push({ key: prevValue, rows: currentGroup });
+                    currentGroup = [];
+                }
+
+                prevValue = value;
+            }
+
+            currentGroup.push(row);
+        });
+
+        if (currentGroup.length > 0) {
+            groups.push({ key: prevValue, rows: currentGroup });
+        }
+
+        return groups;
+    };
+    console.log(columns);
+    const groupedData = groupRows(dataSource, columns[1].id);
+    console.log('--->>>groupedData: ', groupedData);
+
+
+    const renderGroup = (group: any) => (
+        <Panel
+            header={group.key}
+            key={group.key}
+            showArrow={false}
+            collapsible="header"
+        >
+            <Table
+                dataSource={group.rows}
+                pagination={false}
+                showHeader={true} // Set showHeader to true
+                size="middle"
+            >
+                {filteredColumnsData.map((column) => (
+                    <Table.Column
+                        title={column.title}
+                        dataIndex={column.id}
+                        key={column.id}
+                        render={(text: any, record: RowData) =>
+                            renderCell(column, text, record)
+                        }
+                    />
+                ))}
+            </Table>
+        </Panel>
+    );
+
+
 
     return (
         <div>
@@ -149,18 +216,14 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
             {/* Search Data component */}
             <SearchData searchQuery={searchQuery} handleSearchQueryChange={handleSearchQueryChange} />
 
-            {/* Table component */}
-            <Table
-                dataSource={filteredData}
-                columns={filteredColumnsData.map((column) => ({
-                    title: column.title,
-                    dataIndex: column.id,
-                    key: column.id,
-                    render: (text: any, record: RowData) => renderCell(column, text, record),
-                }))}
-                pagination={false}
-                rowKey="id"
-            />
+            <Collapse
+                bordered={false}
+                activeKey={expandedGroups}
+                onChange={(keys) => setExpandedGroups(keys as string[])}
+            >
+                {groupedData.map((group) => renderGroup(group))}
+            </Collapse>
+
         </div>
     );
 };
