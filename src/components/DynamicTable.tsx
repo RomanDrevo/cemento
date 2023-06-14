@@ -12,8 +12,6 @@ import {
 import FilterColumns from "./FilterColumns";
 import SearchData from "./SearchData";
 
-
-
 const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     const [editedData, setEditedData] = useState<RowData[]>(data);
 
@@ -23,6 +21,7 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     const filteredColumns = useSelector(selectFilteredColumns)
 
     useEffect(() => {
+        // Load data from local storage when the component mounts
         const storedData = localStorage.getItem('editedData');
         if (storedData) {
             setEditedData(JSON.parse(storedData));
@@ -30,10 +29,12 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     }, []);
 
     useEffect(() => {
+        // Save data to local storage whenever the editedData state changes
         localStorage.setItem('editedData', JSON.stringify(editedData));
     }, [editedData]);
 
     const handleCellChange = (rowId: string, columnId: string, value: any) => {
+        // Update the editedData state when a cell value changes
         const updatedData = editedData.map((row) => {
             if (row.id === rowId) {
                 return {
@@ -47,6 +48,7 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     };
 
     const handleColumnToggle = (columnId: string) => {
+        // Toggle the visibility of a column when its checkbox is clicked
         if (filteredColumns.includes(columnId)) {
             dispatch(setFilteredColumns(filteredColumns.filter((id: string) => id !== columnId)));
         } else {
@@ -55,10 +57,12 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     };
 
     const handleSearchQueryChange = (value: string) => {
+        // Update the searchQuery state when the search input value changes
         dispatch(updateSearchQuery(value))
     };
 
     const filterData = (data: RowData[], query: string) => {
+        // Filter the data based on the search query
         if (query.trim() === '') {
             return data;
         }
@@ -72,6 +76,7 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     };
 
     const renderCell = (column: Column, text: any, record: RowData) => {
+        // Render different types of cells based on the column type
         switch (column.type) {
             case 'string':
                 return (
@@ -123,7 +128,7 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     };
 
     const handleSaveData = () => {
-        // Handle saving the edited data here
+        // Handle saving the edited data
         console.log(editedData);
         dispatch(saveData(editedData));
     };
@@ -133,13 +138,18 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
 
     return (
         <div>
+            {/* Save Data button */}
             <Button type="primary" onClick={handleSaveData}>
                 Save Data
             </Button>
 
+            {/* Filter Columns component */}
             <FilterColumns columns={columns} filteredColumns={filteredColumns} handleColumnToggle={handleColumnToggle} />
 
+            {/* Search Data component */}
             <SearchData searchQuery={searchQuery} handleSearchQueryChange={handleSearchQueryChange} />
+
+            {/* Table component */}
             <Table
                 dataSource={filteredData}
                 columns={filteredColumnsData.map((column) => ({
