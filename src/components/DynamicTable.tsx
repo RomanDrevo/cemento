@@ -1,14 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {Column, RowData} from "../App";
+import React, { useEffect, useState } from 'react';
 import { Table, Input, Button, Select, Switch } from 'antd';
-
-
-
-
-interface TableData {
-    columns: Column[];
-    data: RowData[];
-}
+import { Column, RowData, TableData } from "../types";
 
 const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     const [editedData, setEditedData] = useState<RowData[]>(data);
@@ -68,41 +60,50 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
         switch (column.type) {
             case 'string':
                 return (
-                    <Input
-                        value={text}
-                        onChange={(e) => handleCellChange(record.id, column.id, e.target.value)}
-                    />
+                    <div className="dynamic-table-cell">
+                        <Input
+                            value={text}
+                            onChange={(e) => handleCellChange(record.id, column.id, e.target.value)}
+                            data-testid={`input_${record.id}`}
+                        />
+                    </div>
                 );
             case 'number':
                 return (
-                    <Input
-                        type="number"
-                        value={text}
-                        onChange={(e) => handleCellChange(record.id, column.id, parseFloat(e.target.value))}
-                    />
+                    <div className="dynamic-table-cell">
+                        <Input
+                            type="number"
+                            value={text}
+                            onChange={(e) => handleCellChange(record.id, column.id, parseFloat(e.target.value))}
+                        />
+                    </div>
                 );
             case 'boolean':
                 return (
-                    <Switch
-                        checked={text}
-                        onChange={(checked) => handleCellChange(record.id, column.id, checked)}
-                    />
+                    <div className="dynamic-table-cell">
+                        <Switch
+                            checked={text}
+                            onChange={(checked) => handleCellChange(record.id, column.id, checked)}
+                        />
+                    </div>
                 );
             case 'selection':
                 return (
-                    <Select
-                        value={text}
-                        onChange={(value) => handleCellChange(record.id, column.id, value)}
-                    >
-                        {column.options?.map((option) => (
-                            <Select.Option key={option} value={option}>
-                                {option}
-                            </Select.Option>
-                        ))}
-                    </Select>
+                    <div className="dynamic-table-cell">
+                        <Select
+                            value={text}
+                            onChange={(value) => handleCellChange(record.id, column.id, value)}
+                        >
+                            {column.options?.map((option) => (
+                                <Select.Option key={option} value={option}>
+                                    {option}
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </div>
                 );
             default:
-                return text;
+                return <div className="dynamic-table-cell">{text}</div>;
         }
     };
 
@@ -127,6 +128,7 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
                             type="checkbox"
                             checked={!filteredColumns.includes(column.id)}
                             onChange={() => handleColumnToggle(column.id)}
+                            data-testid={`column-checkbox_${column.id}`}
                         />
                         {column.title}
                     </label>
@@ -155,6 +157,4 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     );
 };
 
-
-export default DynamicTable
-
+export default DynamicTable;
