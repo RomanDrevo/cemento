@@ -2,15 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Table, Input, Button, Select, Switch } from 'antd';
 import { Column, RowData, TableData } from "../types";
 import {useDispatch, useSelector} from 'react-redux';
-import {saveData, selectSearchQuery, updateSearchQuery} from '../store/tableDataSlice';
+import {
+    saveData,
+    selectFilteredColumns,
+    selectSearchQuery,
+    setFilteredColumns,
+    updateSearchQuery
+} from '../store/tableDataSlice';
 
 const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     const [editedData, setEditedData] = useState<RowData[]>(data);
-    const [filteredColumns, setFilteredColumns] = useState<string[]>([]);
 
     const dispatch = useDispatch();
 
     const searchQuery = useSelector(selectSearchQuery)
+    const filteredColumns = useSelector(selectFilteredColumns)
 
     useEffect(() => {
         const storedData = localStorage.getItem('editedData');
@@ -38,15 +44,14 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
 
     const handleColumnToggle = (columnId: string) => {
         if (filteredColumns.includes(columnId)) {
-            setFilteredColumns(filteredColumns.filter((id) => id !== columnId));
+            dispatch(setFilteredColumns(filteredColumns.filter((id: string) => id !== columnId)));
         } else {
-            setFilteredColumns([...filteredColumns, columnId]);
+            dispatch(setFilteredColumns([...filteredColumns, columnId]));
         }
     };
 
     const handleSearchQueryChange = (value: string) => {
         dispatch(updateSearchQuery(value))
-        // setSearchQuery(value);
     };
 
     const filterData = (data: RowData[], query: string) => {

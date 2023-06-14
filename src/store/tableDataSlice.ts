@@ -28,10 +28,13 @@ const tableDataSlice = createSlice({
             console.log('--->>>payload: ',action )
             state.searchQuery = action.payload;
         },
+        setFilteredColumns: (state, action: PayloadAction<string[]>) => {
+            state.filteredColumns = action.payload;
+        },
     },
 });
 
-export const { saveData, updateSearchQuery } = tableDataSlice.actions;
+export const { saveData, updateSearchQuery, setFilteredColumns } = tableDataSlice.actions;
 
 export const selectEditedData = (state: any) => state.table.editedData;
 export const selectFilteredColumns = (state: any) => state.table.filteredColumns;
