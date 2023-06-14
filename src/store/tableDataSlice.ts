@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RowData } from '../types';
-import {RootState} from "@reduxjs/toolkit/dist/query/core/apiState";
 
 
 interface TableDataState {
