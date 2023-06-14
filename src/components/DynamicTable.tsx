@@ -11,7 +11,6 @@ import {
 } from '../store/tableDataSlice';
 import FilterColumns from "./FilterColumns";
 import SearchData from "./SearchData";
-import {ColumnType} from "antd/lib/table";
 
 const { Panel } = Collapse;
 
