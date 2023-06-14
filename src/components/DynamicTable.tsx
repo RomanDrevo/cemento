@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Input, Button, Select, Switch } from 'antd';
 import { Column, RowData, TableData } from "../types";
+import { useDispatch } from 'react-redux';
+import { saveData } from '../store/tableDataSlice';
 
 const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     const [editedData, setEditedData] = useState<RowData[]>(data);
@@ -106,10 +108,11 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
                 return <div className="dynamic-table-cell">{text}</div>;
         }
     };
-
+    const dispatch = useDispatch();
     const handleSaveData = () => {
         // Handle saving the edited data here
         console.log(editedData);
+        dispatch(saveData(editedData));
     };
 
     const filteredColumnsData = columns.filter((column) => !filteredColumns.includes(column.id));
