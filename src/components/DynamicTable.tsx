@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Input, Button, Select, Switch } from 'antd';
 import { Column, RowData, TableData } from "../types";
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     saveData,
     selectFilteredColumns,
@@ -9,6 +9,10 @@ import {
     setFilteredColumns,
     updateSearchQuery
 } from '../store/tableDataSlice';
+import FilterColumns from "./FilterColumns";
+import SearchData from "./SearchData";
+
+
 
 const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     const [editedData, setEditedData] = useState<RowData[]>(data);
@@ -132,28 +136,10 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
             <Button type="primary" onClick={handleSaveData}>
                 Save Data
             </Button>
-            <div>
-                <h3>Filter Columns:</h3>
-                {columns.map((column) => (
-                    <label key={column.id}>
-                        <input
-                            type="checkbox"
-                            checked={!filteredColumns.includes(column.id)}
-                            onChange={() => handleColumnToggle(column.id)}
-                            data-testid={`column-checkbox_${column.id}`}
-                        />
-                        {column.title}
-                    </label>
-                ))}
-            </div>
-            <div>
-                <h3>Search Data:</h3>
-                <Input.Search
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={(e) => handleSearchQueryChange(e.target.value)}
-                />
-            </div>
+
+            <FilterColumns columns={columns} filteredColumns={filteredColumns} handleColumnToggle={handleColumnToggle} />
+
+            <SearchData searchQuery={searchQuery} handleSearchQueryChange={handleSearchQueryChange} />
             <Table
                 dataSource={filteredData}
                 columns={filteredColumnsData.map((column) => ({
