@@ -1,4 +1,4 @@
-import {Column, TableData} from "./types";
+import {TableData} from "./types";
 
 global.matchMedia =
     global.matchMedia ||
