@@ -1,18 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RowData } from '../types';
-import {dataset4} from "../mocks";
 
 
 interface TableDataState {
     data: RowData[];
-    // editedData: RowData[];
     filteredColumns: string[];
     searchQuery: string;
 }
 
 const initialState: TableDataState = {
     data: [],
-    // editedData: [],
     filteredColumns: [],
     searchQuery: '',
 };
@@ -34,7 +31,6 @@ const tableDataSlice = createSlice({
         setEditedData: (state, action: PayloadAction<RowData[]>) => {
             state.data = action.payload;
             localStorage.setItem('editedData', JSON.stringify(action.payload)); // Save payload in local storage
-
         },
     },
 });
