@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RowData } from '../types';
+import {dataset4} from "../mocks";
 
 
 interface TableDataState {
@@ -10,7 +11,7 @@ interface TableDataState {
 }
 
 const initialState: TableDataState = {
-    data: [],
+    data: dataset4.data,
     // editedData: [],
     filteredColumns: [],
     searchQuery: '',

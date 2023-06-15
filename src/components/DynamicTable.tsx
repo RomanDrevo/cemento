@@ -16,7 +16,6 @@ const {Panel} = Collapse;
 
 
 const DynamicTable: React.FC<TableData> = ({columns, data}) => {
-    // const [editedData, setEditedData] = useState<RowData[]>(data);
     const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
 
 
@@ -26,23 +25,15 @@ const DynamicTable: React.FC<TableData> = ({columns, data}) => {
     const filteredColumns = useSelector(selectFilteredColumns)
     const editedData = useSelector(selectData)
 
-    const updateEditedData = (data: RowData[]) => {
-        dispatch(setEditedData(data));
-        localStorage.setItem('editedData', JSON.stringify(data));
-    };
-
     useEffect(() => {
         // Load data from local storage when the component mounts
         const storedData = localStorage.getItem('editedData');
-        if (storedData) {
+
+        if (storedData && JSON.parse(storedData).length > 0) {
             dispatch(setEditedData(JSON.parse(storedData)));
         }
     }, []);
 
-    useEffect(() => {
-        // Save data to local storage whenever the editedData state changes
-        localStorage.setItem('editedData', JSON.stringify(editedData));
-    }, [editedData]);
 
     const handleCellChange = (rowId: string, columnId: string, value: any) => {
         // Update the editedData state when a cell value changes
@@ -87,6 +78,8 @@ const DynamicTable: React.FC<TableData> = ({columns, data}) => {
     };
 
     const renderCell = (column: Column, text: any, record: RowData) => {
+        console.log(text)
+        console.log(column)
         // Render different types of cells based on the column type
         switch (column.type) {
             case 'string':

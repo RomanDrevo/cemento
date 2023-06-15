@@ -150,6 +150,12 @@ export const dataset4: TableData = {
             type: "selection",
             options: ["Male", "Female", "Other"],
         },
+        {
+            id: "occupation",
+            ordinalNo: 5,
+            title: "Occupation",
+            type: "string",
+        },
     ],
     data:[
         {
@@ -158,6 +164,7 @@ export const dataset4: TableData = {
             age: 25,
             active: true,
             gender: "Male",
+            occupation: "Developer",
         },
         {
             id: "2",
@@ -165,6 +172,7 @@ export const dataset4: TableData = {
             age: 25,
             active: false,
             gender: "Female",
+            occupation: "PM",
         },
         {
             id: "3",
@@ -172,6 +180,7 @@ export const dataset4: TableData = {
             age: 35,
             active: true,
             gender: "Other",
+            occupation: "UI/UX",
         },
         {
             id: "4",
@@ -179,6 +188,7 @@ export const dataset4: TableData = {
             age: 42,
             active: true,
             gender: "Male",
+            occupation: "QA",
         },
         {
             id: "5",
@@ -186,6 +196,7 @@ export const dataset4: TableData = {
             age: 28,
             active: false,
             gender: "Female",
+            occupation: "Developer",
         },
         {
             id: "6",
@@ -193,6 +204,7 @@ export const dataset4: TableData = {
             age: 39,
             active: true,
             gender: "Male",
+            occupation: "PM",
         },
         {
             id: "7",
@@ -200,6 +212,7 @@ export const dataset4: TableData = {
             age: 33,
             active: true,
             gender: "Female",
+            occupation: "UI/UX",
         },
         {
             id: "8",
@@ -207,6 +220,7 @@ export const dataset4: TableData = {
             age: 29,
             active: false,
             gender: "Male",
+            occupation: "QA",
         },
         {
             id: "9",
@@ -214,6 +228,7 @@ export const dataset4: TableData = {
             age: 27,
             active: true,
             gender: "Female",
+            occupation: "Developer",
         },
         {
             id: "10",
@@ -221,6 +236,7 @@ export const dataset4: TableData = {
             age: 37,
             active: false,
             gender: "Male",
+            occupation: "PM",
         },
         {
             id: "11",
@@ -228,6 +244,7 @@ export const dataset4: TableData = {
             age: 24,
             active: true,
             gender: "Female",
+            occupation: "UI/UX",
         },
         {
             id: "12",
@@ -235,6 +252,7 @@ export const dataset4: TableData = {
             age: 31,
             active: true,
             gender: "Male",
+            occupation: "QA",
         },
         {
             id: "13",
@@ -242,6 +260,7 @@ export const dataset4: TableData = {
             age: 36,
             active: false,
             gender: "Female",
+            occupation: "Developer",
         },
         {
             id: "14",
@@ -249,6 +268,7 @@ export const dataset4: TableData = {
             age: 26,
             active: true,
             gender: "Male",
+            occupation: "PM",
         },
         {
             id: "15",
@@ -256,6 +276,7 @@ export const dataset4: TableData = {
             age: 32,
             active: true,
             gender: "Female",
+            occupation: "UI/UX",
         },
         {
             id: "16",
@@ -263,6 +284,7 @@ export const dataset4: TableData = {
             age: 40,
             active: false,
             gender: "Male",
+            occupation: "QA",
         },
         {
             id: "17",
@@ -270,6 +292,7 @@ export const dataset4: TableData = {
             age: 23,
             active: true,
             gender: "Female",
+            occupation: "Developer",
         },
         {
             id: "18",
@@ -277,6 +300,7 @@ export const dataset4: TableData = {
             age: 38,
             active: true,
             gender: "Male",
+            occupation: "PM",
         },
         {
             id: "19",
@@ -284,6 +308,7 @@ export const dataset4: TableData = {
             age: 34,
             active: false,
             gender: "Female",
+            occupation: "UI/UX",
         },
         {
             id: "20",
@@ -291,6 +316,8 @@ export const dataset4: TableData = {
             age: 41,
             active: true,
             gender: "Other",
+            occupation: "QA",
         },
+        // Add more objects as needed
     ]
 }
