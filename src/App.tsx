@@ -8,7 +8,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {PersistGate} from "redux-persist/integration/react";
-import GroupTable from "./components/GroupTable";
 
 
 const persistConfig = {
@@ -35,7 +34,6 @@ function App() {
           <PersistGate loading={null} persistor={persistor}>
             <div className="App">
                 <DynamicTable {...dataset4} />
-                {/*<GroupTable  />*/}
             </div>
           </PersistGate>
       </Provider>
