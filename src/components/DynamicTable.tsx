@@ -204,16 +204,20 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
 
     return (
         <div>
-            {/* Save Data button */}
-            <Button type="primary" onClick={handleSaveData}>
-                Save Data
-            </Button>
+            <div style={{display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'space-around', paddingTop: '20px', paddingBottom: '20px'}}>
+                {/* Filter Columns component */}
+                <FilterColumns columns={columns} filteredColumns={filteredColumns} handleColumnToggle={handleColumnToggle} />
 
-            {/* Filter Columns component */}
-            <FilterColumns columns={columns} filteredColumns={filteredColumns} handleColumnToggle={handleColumnToggle} />
+                <Button type="primary" onClick={handleSaveData}>
+                    Save Data
+                </Button>
 
-            {/* Search Data component */}
-            <SearchData searchQuery={searchQuery} handleSearchQueryChange={handleSearchQueryChange} />
+
+                {/* Search Data component */}
+                <SearchData searchQuery={searchQuery} handleSearchQueryChange={handleSearchQueryChange} />
+            </div>
+
+
 
             <Collapse
                 bordered={false}
