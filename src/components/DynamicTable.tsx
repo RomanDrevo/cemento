@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Table, Input, Button, Select, Switch, Collapse} from 'antd';
-import { Column, RowData, TableData } from "../types";
-import { useDispatch, useSelector } from 'react-redux';
+import {Column, RowData, TableData} from "../types";
+import {useDispatch, useSelector} from 'react-redux';
 import {
-    saveData,
+    saveData, selectData,
     selectFilteredColumns,
-    selectSearchQuery,
+    selectSearchQuery, setEditedData,
     setFilteredColumns,
     updateSearchQuery
 } from '../store/tableDataSlice';
 import FilterColumns from "./FilterColumns";
 import SearchData from "./SearchData";
 
-const { Panel } = Collapse;
+const {Panel} = Collapse;
 
 
-const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
-    const [editedData, setEditedData] = useState<RowData[]>(data);
+const DynamicTable: React.FC<TableData> = ({columns, data}) => {
+    // const [editedData, setEditedData] = useState<RowData[]>(data);
     const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
 
 
@@ -24,12 +24,18 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
 
     const searchQuery = useSelector(selectSearchQuery)
     const filteredColumns = useSelector(selectFilteredColumns)
+    const editedData = useSelector(selectData)
+
+    const updateEditedData = (data: RowData[]) => {
+        dispatch(setEditedData(data));
+        localStorage.setItem('editedData', JSON.stringify(data));
+    };
 
     useEffect(() => {
         // Load data from local storage when the component mounts
         const storedData = localStorage.getItem('editedData');
         if (storedData) {
-            setEditedData(JSON.parse(storedData));
+            dispatch(setEditedData(JSON.parse(storedData)));
         }
     }, []);
 
@@ -40,7 +46,7 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
 
     const handleCellChange = (rowId: string, columnId: string, value: any) => {
         // Update the editedData state when a cell value changes
-        const updatedData = editedData.map((row) => {
+        const updatedData = editedData.map((row: RowData) => {
             if (row.id === rowId) {
                 return {
                     ...row,
@@ -49,7 +55,7 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
             }
             return row;
         });
-        setEditedData(updatedData);
+        dispatch(setEditedData(updatedData));
     };
 
     const handleColumnToggle = (columnId: string) => {
@@ -140,7 +146,7 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
 
     const filteredColumnsData = columns.filter((column) => !filteredColumns.includes(column.id));
     const filteredData = filterData(editedData, searchQuery);
-    const dataSource = filteredData.map((row) => ({ key: row.id, ...row }));
+    const dataSource = filteredData.map((row) => ({key: row.id, ...row}));
 
     const groupRows = (rows: any[], columnId: string) => {
         const groups: any[] = [];
@@ -152,7 +158,7 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
 
             if (value !== prevValue) {
                 if (currentGroup.length > 0) {
-                    groups.push({ key: prevValue, rows: currentGroup });
+                    groups.push({key: prevValue, rows: currentGroup});
                     currentGroup = [];
                 }
 
@@ -163,15 +169,13 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
         });
 
         if (currentGroup.length > 0) {
-            groups.push({ key: prevValue, rows: currentGroup });
+            groups.push({key: prevValue, rows: currentGroup});
         }
 
         return groups;
     };
-    console.log(columns);
-    const groupedData = groupRows(dataSource, columns[1].id);
-    console.log('--->>>groupedData: ', groupedData);
 
+    const groupedData = groupRows(dataSource, columns[1].id);
 
     const renderGroup = (group: any) => (
         <Panel
@@ -201,12 +205,19 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
     );
 
 
-
     return (
         <div>
-            <div style={{display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'space-around', paddingTop: '20px', paddingBottom: '20px'}}>
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyItems: 'center',
+                justifyContent: 'space-around',
+                paddingTop: '20px',
+                paddingBottom: '20px'
+            }}>
                 {/* Filter Columns component */}
-                <FilterColumns columns={columns} filteredColumns={filteredColumns} handleColumnToggle={handleColumnToggle} />
+                <FilterColumns columns={columns} filteredColumns={filteredColumns}
+                               handleColumnToggle={handleColumnToggle}/>
 
                 <Button type="primary" onClick={handleSaveData}>
                     Save Data
@@ -214,9 +225,8 @@ const DynamicTable: React.FC<TableData> = ({ columns, data }) => {
 
 
                 {/* Search Data component */}
-                <SearchData searchQuery={searchQuery} handleSearchQueryChange={handleSearchQueryChange} />
+                <SearchData searchQuery={searchQuery} handleSearchQueryChange={handleSearchQueryChange}/>
             </div>
-
 
 
             <Collapse
