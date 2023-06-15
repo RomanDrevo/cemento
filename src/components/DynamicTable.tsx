@@ -133,7 +133,6 @@ const DynamicTable: React.FC<TableData> = ({columns, data}) => {
 
     const handleSaveData = () => {
         // Handle saving the edited data
-        console.log(editedData);
         dispatch(saveData(editedData));
     };
 
@@ -143,32 +142,23 @@ const DynamicTable: React.FC<TableData> = ({columns, data}) => {
 
     const groupRows = (rows: any[], columnId: string) => {
         const groups: any[] = [];
-        let currentGroup: any[] = [];
-        let prevValue: any = null;
+        const groupMap: any = {};
 
         rows.forEach((row) => {
             const value = row[columnId];
-
-            if (value !== prevValue) {
-                if (currentGroup.length > 0) {
-                    groups.push({key: prevValue, rows: currentGroup});
-                    currentGroup = [];
-                }
-
-                prevValue = value;
+            if (!groupMap[value]) {
+                groupMap[value] = [];
+                groups.push({ key: value, rows: groupMap[value] });
             }
-
-            currentGroup.push(row);
+            groupMap[value].push(row);
         });
-
-        if (currentGroup.length > 0) {
-            groups.push({key: prevValue, rows: currentGroup});
-        }
 
         return groups;
     };
 
-    const groupedData = groupRows(dataSource, columns[1].id);
+
+    const groupedData = groupRows(dataSource, "occupation");
+
 
     const renderGroup = (group: any) => (
         <Panel
