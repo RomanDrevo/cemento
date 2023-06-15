@@ -11,7 +11,7 @@ interface TableDataState {
 }
 
 const initialState: TableDataState = {
-    data: dataset4.data,
+    data: [],
     // editedData: [],
     filteredColumns: [],
     searchQuery: '',
@@ -33,6 +33,8 @@ const tableDataSlice = createSlice({
         },
         setEditedData: (state, action: PayloadAction<RowData[]>) => {
             state.data = action.payload;
+            localStorage.setItem('editedData', JSON.stringify(action.payload)); // Save payload in local storage
+
         },
     },
 });

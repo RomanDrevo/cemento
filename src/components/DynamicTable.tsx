@@ -31,6 +31,8 @@ const DynamicTable: React.FC<TableData> = ({columns, data}) => {
 
         if (storedData && JSON.parse(storedData).length > 0) {
             dispatch(setEditedData(JSON.parse(storedData)));
+        } else {
+            dispatch(setEditedData(data)); // Set the data from component props
         }
     }, []);
 
@@ -78,8 +80,6 @@ const DynamicTable: React.FC<TableData> = ({columns, data}) => {
     };
 
     const renderCell = (column: Column, text: any, record: RowData) => {
-        console.log(text)
-        console.log(column)
         // Render different types of cells based on the column type
         switch (column.type) {
             case 'string':
