@@ -9,7 +9,7 @@ const FilterColumns: React.FC<{ columns: Column[], filteredColumns: string[], ha
                 <label key={column.id}>
                     <input
                         type="checkbox"
-                        checked={!filteredColumns.includes(column.id)}
+                        checked={filteredColumns.includes(column.id)}
                         onChange={() => handleColumnToggle(column.id)}
                         data-testid={`column-checkbox_${column.id}`}
                     />
