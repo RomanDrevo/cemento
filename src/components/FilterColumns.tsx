@@ -4,7 +4,7 @@ import {Column} from "../types";
 const FilterColumns: React.FC<{ columns: Column[], filteredColumns: string[], handleColumnToggle: (columnId: string) => void }> = ({ columns, filteredColumns, handleColumnToggle }) => {
     return (
         <div>
-            <h3>Filter Columns:</h3>
+            <h3>Hide Columns:</h3>
             {columns.map((column) => (
                 <label key={column.id}>
                     <input
