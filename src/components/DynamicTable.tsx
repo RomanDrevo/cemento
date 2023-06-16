@@ -190,14 +190,7 @@ const DynamicTable: React.FC<TableData> = ({columns, data}) => {
 
     return (
         <div>
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyItems: 'center',
-                justifyContent: 'space-around',
-                paddingTop: '20px',
-                paddingBottom: '20px'
-            }}>
+            <div className='dynamic-table'>
                 {/* Filter Columns component */}
                 <FilterColumns columns={columns} filteredColumns={filteredColumns}
                                handleColumnToggle={handleColumnToggle}/>
