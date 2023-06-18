@@ -190,7 +190,11 @@ const DynamicTable: React.FC<TableData> = ({columns, data}) => {
 
     return (
         <div>
-            <div className='dynamic-table'>
+            <div className='dynamic-table-header'>
+
+                {/* Search Data component */}
+                <SearchData searchQuery={searchQuery} handleSearchQueryChange={handleSearchQueryChange}/>
+
                 {/* Filter Columns component */}
                 <FilterColumns columns={columns} filteredColumns={filteredColumns}
                                handleColumnToggle={handleColumnToggle}/>
@@ -199,9 +203,6 @@ const DynamicTable: React.FC<TableData> = ({columns, data}) => {
                     Save Data
                 </Button>
 
-
-                {/* Search Data component */}
-                <SearchData searchQuery={searchQuery} handleSearchQueryChange={handleSearchQueryChange}/>
             </div>
 
 
