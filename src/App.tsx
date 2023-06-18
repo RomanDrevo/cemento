@@ -8,7 +8,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {PersistGate} from "redux-persist/integration/react";
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
+
+const customizedMiddleware = getDefaultMiddleware({
+    serializableCheck: false
+})
 
 const persistConfig = {
     key: 'root',
@@ -18,10 +23,12 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, tableDataReducer);
 
 
+
 const store = configureStore({
     reducer: {
         table: persistedReducer,
     },
+    middleware: customizedMiddleware,
 });
 
 
